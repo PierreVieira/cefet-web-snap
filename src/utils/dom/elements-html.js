@@ -18,3 +18,4 @@ export const ovalOptionEl = document.querySelector(`input[value="${nameClassOval
 export const balaozinhoEL = document.querySelector('#balaozinho')
 export const pictureFilterEl = document.querySelector('#filtro-da-foto')
 export const pictureEl = document.querySelector(`.${nameClassFotoAnotada}`).querySelector('img')
+export const inputImage = document.querySelector('#imagem')

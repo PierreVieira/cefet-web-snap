@@ -3,5 +3,6 @@ export const EventType = Object.freeze({
     'INPUT': 'input',
     'MOUSE_OVER': 'mouseover',
     'MOUSE_OUT': 'mouseout',
-    'MOUSE_MOVE': 'mousemove'
+    'MOUSE_MOVE': 'mousemove',
+    'LOAD': 'load'
 })

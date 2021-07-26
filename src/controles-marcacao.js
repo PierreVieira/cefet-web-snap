@@ -1,9 +1,8 @@
-import {marcacoesEl} from './utils/marcacoes-el.js'
 import {
     colorMarkEl,
     contentMarkEl,
     firstSelectedEl,
-    heightMarkEl,
+    heightMarkEl, marcacoesEl,
     marksVisibilityEl,
     ovalOptionEl,
     rectOptionEl,
@@ -24,7 +23,7 @@ import {
     updateYStyle
 } from "./utils/update-mark.js";
 import {getBalloonAtributes} from "./utils/ballon.js";
-import {EventType} from "./utils/event-type.js";
+import {EventType} from "./utils/enums/event-type.js";
 import {
     nameClassMarcacaoOculta,
     nameClassOvalFormat,

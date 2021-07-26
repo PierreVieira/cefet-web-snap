@@ -1,7 +1,6 @@
-import {marcacoesEl} from './utils/marcacoes-el.js'
 import {getBalloonAtributes} from "./utils/ballon.js"
-import {EventType} from "./utils/event-type.js"
-import {balaozinhoEL} from "./utils/dom/elements-html.js";
+import {EventType} from "./utils/enums/event-type.js"
+import {balaozinhoEL, marcacoesEl} from "./utils/dom/elements-html.js";
 
 function registerMouseEnterEvent(marcacaoEl) {
     marcacaoEl.addEventListener(EventType.MOUSE_OVER, _ => {

@@ -1,53 +1,95 @@
-import {getDataAtributes, marcacoesEl, nameClassMarcacao} from './marcacoesEl.js'
+import {marcacoesEl} from './utils/marcacoes-el.js'
+import {
+    colorMarkEl,
+    contentMarkEl,
+    firstSelectedEl,
+    heightMarkEl,
+    marksVisibilityEl,
+    ovalOptionEl,
+    rectOptionEl,
+    titleMarkEl,
+    widthMarkEl,
+    xMarkEl,
+    yMarkEl
+} from "./utils/dom/elements-html.js";
+import {
+    updateColor,
+    updateContent,
+    updateHeightStyle,
+    updateTitle,
+    updateToOval,
+    updateToRectangle,
+    updateWidthStyle,
+    updateXStyle,
+    updateYStyle
+} from "./utils/update-mark.js";
+import {getBalloonAtributes} from "./utils/ballon.js";
+import {EventType} from "./utils/event-type.js";
+import {
+    nameClassMarcacaoOculta,
+    nameClassOvalFormat,
+    nameClassRectFormat,
+    nameClassSelecionada
+} from "./utils/dom/elements-css.js";
 
-const marksVisibility = document.querySelector('#visibilidade-das-marcacoes')
-const xMarkEl = document.querySelector('#x-da-marcacao')
-const yMarkEl = document.querySelector('#y-da-marcacao')
-const widthMarkEl = document.querySelector('#largura-da-marcacao')
-const heightMarkEl = document.querySelector('#altura-da-marcacao')
-const titleMarkEl = document.querySelector('#titulo-da-marcacao')
-const contentMarkEl = document.querySelector('#conteudo-da-marcacao')
-const colorMarkEl = document.querySelector('#cor-da-marcacao')
+if (firstSelectedEl) {
+    updateControls(firstSelectedEl)
+    updateElementAttributes(firstSelectedEl)
+}
 
-marksVisibility.addEventListener('click', _ => {
-    const isChecked = marksVisibility.checked
+marksVisibilityEl.addEventListener(EventType.CLICK, _ => {
+    const isChecked = marksVisibilityEl.checked
     control(isChecked)
 })
 
+function updateElementAttributes() {
+    xMarkEl.addEventListener(EventType.INPUT, updateXStyle)
+    yMarkEl.addEventListener(EventType.INPUT, updateYStyle)
+    widthMarkEl.addEventListener(EventType.INPUT, updateWidthStyle)
+    heightMarkEl.addEventListener(EventType.INPUT, updateHeightStyle)
+    titleMarkEl.addEventListener(EventType.INPUT, updateTitle)
+    contentMarkEl.addEventListener(EventType.INPUT, updateContent)
+    colorMarkEl.addEventListener(EventType.INPUT, updateColor)
+    rectOptionEl.addEventListener(EventType.CLICK, updateToRectangle)
+    ovalOptionEl.addEventListener(EventType.CLICK, updateToOval)
+}
+
 marcacoesEl.forEach(marcacaoEl => {
-    marcacaoEl.addEventListener('click', _ => {
+    marcacaoEl.addEventListener(EventType.CLICK, e => {
+        marcacaoEl = e.currentTarget
         removeAllSelecionada()
-        marcacaoEl.classList.add('selecionada')
+        marcacaoEl.classList.add(nameClassSelecionada)
         updateControls(marcacaoEl)
+        updateElementAttributes()
     })
 })
 
 function control(isChecked) {
     marcacoesEl.forEach(marcacaoEl => {
         if (isChecked) {
-            marcacaoEl.classList.remove(`${nameClassMarcacao}`)
+            marcacaoEl.classList.add(`${nameClassMarcacaoOculta}`)
         } else {
-            marcacaoEl.classList.add(`${nameClassMarcacao}`)
+            marcacaoEl.classList.remove(`${nameClassMarcacaoOculta}`)
         }
     })
 }
 
 function removeAllSelecionada() {
-    marcacoesEl.forEach(marcacoesEl => {
-        marcacoesEl.classList.remove('selecionada')
+    marcacoesEl.forEach(marcacoEl => {
+        marcacoEl.classList.remove(nameClassSelecionada)
     })
 }
 
 function updateControls(marcacaoEl) {
     const style = marcacaoEl.style
     const [x, y, width, height] = getIntAttributes(style)
-    const [title, content, color] = getDataAtributes(marcacaoEl)
-    const formato = marcacaoEl.classList.contains('formato-oval') ? 'formato-oval' : 'formato-retangular'
+    const [title, content, color] = getBalloonAtributes(marcacaoEl)
+    const formato = marcacaoEl.classList.contains(nameClassOvalFormat) ? nameClassOvalFormat : nameClassRectFormat
     setFront(x, y, width, height, title, content, color, formato);
 }
 
 function getIntAttributes(style) {
-    return [parseInt(style.top), parseInt(style.left), parseInt(style.width), parseInt(style.height)];
+    return [parseInt(style.left), parseInt(style.top), parseInt(style.width), parseInt(style.height)];
 }
 
 function setFront(x, y, width, height, title, content, color, formato) {
